@@ -1,0 +1,33 @@
+pages:
+    - page:
+       pageName: org.webdriver.patatiumappui.pageObject.StartPage
+       value: "www.baidu.com"
+       desc: "微信APP启动首页"
+       locators:
+          - {type: "id",timeout: "3",value: "com.tencent.mm:id/c72",desc: "登录",name: "登录"}
+          - {type: "id",timeout: "3",value: "com.tencent.mm:id/c71",desc: "注册",name: "注册"}
+    - page:
+        pageName: org.webdriver.patatiumappui.pageObject.LoginPage
+        value: ""
+        desc: "微信App登录页面"
+        locators:
+          - {type: "id",timeout: "3" , value: "com.tencent.mm:id/b9i", desc: "使用其他方式登录",name: "使用其他方式登录"}
+          - {type: "xpath",timeout: "3" ,value: "//android.widget.EditText[@text='QQ号/微信号/Email']", desc: "账号",name: "账号输入框"}
+          - {type: "xpath",timeout: "3" ,value: "//android.widget.EditText[@NAF='1']", desc: "密码",name: "密码输入框"}
+          - {type: "id",timeout: "3" ,value: "com.tencent.mm:id/b8z", desc: "登录",name: "登录按钮"}
+          - {type: "id",timeout: "3" ,value: "com.tencent.mm:id/bl3", desc: "失败提示信息确认信息",name: "登录失败提示信息"}
+          - {type: "id",timeout: "3" ,value: "com.tencent.mm:id/a_r", desc: "失败提示信息确认按钮",name: "登录失败确认按钮"}
+
+    - page:
+        pageName: org.webdriver.patatiumappui.pageObject.commissionPage
+        value: "fncms.fin.ustax.com.cn/#/fncms/commission/list"
+        desc: "员工提成页面"
+        locators:
+          - {type: "tagName",timeout: "3" , value: "b", desc: "页面title",name: "员工提成奖励"}
+          - {type: "id",timeout: "3" ,value: "tab-0", desc: "服务费tab",name: "服务费"}
+          - {type: "id",timeout: "3" ,value: "tab-1", desc: "园区奖励tab",name: "园区奖励"}
+          - {type: "xpath",timeout: "3" ,value: "/html/body/div[1]/div/div[2]/div[2]/div/div[2]/div/div/div/div[1]/span/button", desc: "导出",name: "导出"}
+          - {type: "xpath",timeout: "3" ,value: "/html/body/div[1]/div/div[2]/div[2]/div/div[2]/div/div/div/div[1]/span/a", desc: "我发放的",name: "我发放的"}
+          - {type: "xpath",timeout: "3" ,value: "/html/body/div[1]/div/div[2]/div[2]/div/div[2]/div/div/div/div[4]/div[1]/div[2]/table/thead/tr", desc: "列表",name: "列表"}
+
+
