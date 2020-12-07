@@ -7,7 +7,7 @@ import org.webdriver.patatiumappui.pageObjectConfig.PageObjectAutoCodeForYaml;//
 public class CommissionPage extends BaseAction {
 //用于eclipse工程内运行查找对象库文件路径
 private String path="src/main/java/org/webdriver/patatiumappui/pageObjectConfig/UILibrary.yaml";
- public CommissionPage() {
+ public   CommissionPage() {
 //工程内读取对象库文件
 	setXmlObjectPath(path);
 getLocatorMap();

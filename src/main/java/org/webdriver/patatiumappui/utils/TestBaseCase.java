@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 public class TestBaseCase {
     public static AndroidDriver driver;
-    public static ChromeDriver driver2;
+    public static ChromeDriver webDriver;
     //方法描述
     public static String description;
     public Log log = new Log(this.getClass().getSuperclass());
@@ -36,7 +36,7 @@ public class TestBaseCase {
     public void setup(String driverName, String nodeURL, String appName, String deviceName, String sdkVersion, String appMainPackage, String appActivity, String platformName) throws MalformedURLException {
         log.info("------------------开始执行测试---------------");
         //启动appium server
-        ElementAction action = new ElementAction();
+       /* ElementAction action = new ElementAction();
         log.info("通过cmd命令启动appium server");
         try {
             String cmd = "appium -a " +
@@ -62,13 +62,19 @@ public class TestBaseCase {
                 e.printStackTrace();
                 log.error("appium环境配置失败");
             }
-        }
+        }*/
+
+
+        System.setProperty("webdriver.chrome.driver", "F:\\软件安装包\\chromedriver_win32_87\\chromedriver.exe");
+        webDriver = new ChromeDriver();
+
 
     }
 
     @AfterSuite
     public void tearDown() throws IOException {
         this.driver.quit();
+        this.webDriver.quit();
         ElementAction action = new ElementAction();
         log.info("关闭appium server");
         action.executeCmd("taskkill /f/im cmd.exe");
@@ -93,10 +99,11 @@ public class TestBaseCase {
         File classRootPath = new File(System.getProperty("user.dir"));
         File appDir = new File(classRootPath, "apps");
         File app = new File(appDir, appName);
+        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+
         switch (driverName) {
             case "AndroidDriver":
                 //设置自动化相关参数
-                DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
                 desiredCapabilities.setCapability("platformName", platformName);
                 desiredCapabilities.setCapability("deviceName", deviceName);
                 desiredCapabilities.setCapability("platformVersion", sdkVersion);
@@ -109,6 +116,12 @@ public class TestBaseCase {
                 desiredCapabilities.setCapability("unicodeKeyboard", "True");
                 desiredCapabilities.setCapability("resetKeyboard", "True");
                 desiredCapabilities.setCapability("noSign", "True");
+                //初始化driver
+                driver = new AndroidDriver(new URL("http://" + nodeURL + "/wd/hub"), desiredCapabilities);
+                break;
+            case "chromeDriver":
+                //设置自动化相关参数
+                desiredCapabilities.setCapability("BrowserType", "chrome");
                 //初始化driver
                 driver = new AndroidDriver(new URL("http://" + nodeURL + "/wd/hub"), desiredCapabilities);
                 break;

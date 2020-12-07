@@ -7,6 +7,17 @@ pages:
           - {type: "id",timeout: "3",value: "com.tencent.mm:id/c72",desc: "登录",name: "登录"}
           - {type: "id",timeout: "3",value: "com.tencent.mm:id/c71",desc: "注册",name: "注册"}
     - page:
+        pageName: org.webdriver.patatiumappui.pageObject.ResicoLoginPage
+        value: ""
+        desc: "微信App登录页面"
+        locators:
+          - {type: "xpath",timeout: "3" , value: "//*[@id=\"app\"]/div/div/div[2]/div/form/div[1]/div/div/input", desc: "用户名",name: "用户名"}
+          - {type: "xpath",timeout: "3" ,value: "//*[@id=\"app\"]/div/div/div[2]/div/form/div[2]/div/div/input", desc: "密码",name: "密码"}
+          - {type: "className",timeout: "3" ,value: "forget", desc: "忘记密码",name: "忘记密码"}
+          - {type: "tagName",timeout: "3" ,value: "button", desc: "立即登录",name: "立即登录"}
+          - {type: "xpath",timeout: "3" ,value: "//*[@id=\"app\"]/div/div/div[2]/div/div[1]/div[3]/i", desc: "切换二维码登录",name: "二维码"}
+          - {type: "className",timeout: "3" ,value: "el-form-item__error", desc: "失败提示信息",name: "失败提示信息"}
+    - page:
         pageName: org.webdriver.patatiumappui.pageObject.LoginPage
         value: ""
         desc: "微信App登录页面"
@@ -17,9 +28,8 @@ pages:
           - {type: "id",timeout: "3" ,value: "com.tencent.mm:id/b8z", desc: "登录",name: "登录按钮"}
           - {type: "id",timeout: "3" ,value: "com.tencent.mm:id/bl3", desc: "失败提示信息确认信息",name: "登录失败提示信息"}
           - {type: "id",timeout: "3" ,value: "com.tencent.mm:id/a_r", desc: "失败提示信息确认按钮",name: "登录失败确认按钮"}
-
     - page:
-        pageName: org.webdriver.patatiumappui.pageObject.commissionPage
+        pageName: org.webdriver.patatiumappui.pageObject.CommissionPage
         value: "fncms.fin.ustax.com.cn/#/fncms/commission/list"
         desc: "员工提成页面"
         locators:

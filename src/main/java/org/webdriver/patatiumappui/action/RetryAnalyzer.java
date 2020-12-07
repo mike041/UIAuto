@@ -3,9 +3,19 @@ package org.webdriver.patatiumappui.action;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 
-public class MyRetry  implements IRetryAnalyzer {
+public class RetryAnalyzer implements IRetryAnalyzer {
+    int maxRetryCount = 3;
+    int currentRetryCount = 0;
+
     @Override
     public boolean retry(ITestResult result) {
-        return false;
+        if (currentRetryCount < maxRetryCount) {
+            currentRetryCount++;
+            return true;
+
+        } else {
+            return false;
+
+        }
     }
 }
