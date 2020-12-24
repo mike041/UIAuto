@@ -1,16 +1,15 @@
-package utils;
+package org.webdriver.patatiumappui.utils;
 
-import lombok.Data;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.ListUtils;
-import org.apache.commons.collections4.MapUtils;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+
+import com.esotericsoftware.yamlbeans.YamlException;
+import com.esotericsoftware.yamlbeans.YamlReader;
 import org.apache.poi.ss.usermodel.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.*;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class ExcelUtils {
@@ -36,8 +35,6 @@ public class ExcelUtils {
         this.flag = false;
         this.load();
     }
-
-
 
 
     public void load() {
@@ -153,14 +150,12 @@ public class ExcelUtils {
 
     }
 
-    public List<Map<String, String>> getData(int begin, int end) {
-        listData = new ArrayList<List<String>>();
+    public List<Map<String, String>> getMapData(int begin, int end) {
         columnHeaderList = new ArrayList<String>();
         mapData = new ArrayList<Map<String, String>>();
         for (int i = begin; i < end; i++) {
             Row row = sheet.getRow(i);
             Map<String, String> map = new HashMap<String, String>();
-            List<String> list = new ArrayList<String>();
             if (row != null) {
                 for (int j = 0; j < row.getLastCellNum(); j++) {
                     Cell cell = row.getCell(j);
@@ -172,12 +167,36 @@ public class ExcelUtils {
             if (i > 0) {
                 mapData.add(map);
             }
-            listData.add(list);
         }
         return mapData;
     }
 
+    public List<Map<String, String>> getMapData(int begin) {
+        int LastRow = sheet.getLastRowNum();
+        return this.getMapData(begin, LastRow);
+    }
 
+
+    public List<List<String>> getListData(int begin, int end) {
+        List<List<String>> listData = new ArrayList<List<String>>();
+        for (int i = begin; i < end; i++) {
+            Row row = sheet.getRow(i);
+            List<String> list = new ArrayList<String>();
+            if (row != null) {
+                for (int j = 0; j < row.getLastCellNum(); j++) {
+                    String cell = row.getCell(j).toString();
+                    list.add(cell);
+                }
+            }
+            listData.add(list);
+        }
+        return listData;
+    }
+
+    public List<List<String>> getListData(int begin) {
+        int LastRow = sheet.getLastRowNum() + 1;
+        return this.getListData(begin, LastRow);
+    }
 
 
     public Map<String, String> getRowData(int index) {
@@ -249,13 +268,60 @@ public class ExcelUtils {
         return this.sheet;
     }
 
+
+    /**
+     * @param path 对象库文件地址
+     * @return 返回locator 哈希表  locatorName:locator
+     */
+    public static HashMap<String, Locator> getLocatorMap(String path) {
+        HashMap<String, Locator> locatorHashMap = new HashMap<>();
+        ExcelUtils excelUtils = new ExcelUtils(path);
+        excelUtils.getSheetData();
+        List<List<String>> sheet = excelUtils.getListData(5);
+        for (int i = 1; i <= sheet.size(); i++)//遍历Page节点
+        {
+            List<String> list = sheet.get(i);
+            Locator locator = new Locator();
+            locator.setType(getByType(list.get(0)));
+            locator.setValue(list.get(2));
+            locator.setTimout(Integer.parseInt(list.get(2)));
+            locator.setLocatorName(list.get(4));
+            locatorHashMap.put(list.get(4), locator);
+        }
+        return locatorHashMap;
+    }
+
+    /**
+     * @param type
+     */
+    public static Locator.ByType getByType(String type) {
+        Locator.ByType byType = Locator.ByType.xpath;
+        if (type == null || type.equalsIgnoreCase("xpath")) {
+            byType = Locator.ByType.xpath;
+        } else if (type.equalsIgnoreCase("id")) {
+            byType = Locator.ByType.id;
+        } else if (type.equalsIgnoreCase("linkText")) {
+            byType = Locator.ByType.linkText;
+        } else if (type.equalsIgnoreCase("name")) {
+            byType = Locator.ByType.name;
+        } else if (type.equalsIgnoreCase("className")) {
+            byType = Locator.ByType.className;
+        } else if (type.equalsIgnoreCase("cssSelector")) {
+            byType = Locator.ByType.cssSelector;
+        } else if (type.equalsIgnoreCase("partialLinkText")) {
+            byType = Locator.ByType.partialLinkText;
+        } else if (type.equalsIgnoreCase("tagName")) {
+            byType = Locator.ByType.tagName;
+        }
+        return byType;
+    }
+
     public static void main(String[] args) {
         ExcelUtils excelUtils = new ExcelUtils("F:\\数据\\demo.xlsx", "Sheet1");
         excelUtils.getSheetData();
         System.out.println(excelUtils.getMapData().subList(0, 10));
 
     }
-
 
 
 }

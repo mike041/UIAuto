@@ -8,8 +8,8 @@ pages:
           - {type: "id",timeout: "3",value: "com.tencent.mm:id/c71",desc: "注册",name: "注册"}
     - page:
         pageName: org.webdriver.patatiumappui.pageObject.ResicoLoginPage
-        value: ""
-        desc: "微信App登录页面"
+        value: "http://fncms.test.ustax.tech/#/fncms/commission/list"
+        desc: "resico登录页面"
         locators:
           - {type: "xpath",timeout: "3" , value: "//*[@id=\"app\"]/div/div/div[2]/div/form/div[1]/div/div/input", desc: "用户名",name: "用户名"}
           - {type: "xpath",timeout: "3" ,value: "//*[@id=\"app\"]/div/div/div[2]/div/form/div[2]/div/div/input", desc: "密码",name: "密码"}

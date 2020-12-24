@@ -43,7 +43,8 @@ public class BaseAction extends TestBaseCase{
 
 
 	}
-	public void getLocatorMap()
+
+	public void setLocatorMap()
 	{
 		XmlReadUtil xmlReadUtil=new XmlReadUtil();
 		YamlReadUtil yamlReadUtil=new YamlReadUtil();
@@ -56,6 +57,8 @@ public class BaseAction extends TestBaseCase{
 					locatorMap = xmlReadUtil.readXMLDocument(path, this.getClass().getCanonicalName());
 				}else if (path.contains(".yaml")) {
 					locatorMap=yamlReadUtil.getLocatorMap(path,this.getClass().getCanonicalName());
+				}else if (path.contains(".xlsx")||path.contains(".xls")) {
+					locatorMap=ExcelUtils.getLocatorMap(path);
 				}
 
 			}

@@ -10,7 +10,7 @@ private String path="src/main/java/org/webdriver/patatiumappui/pageObjectConfig/
  public   StartPage() {
 //工程内读取对象库文件
 	setXmlObjectPath(path);
-getLocatorMap();
+setLocatorMap();
 }
 /***
 * com.tencent.mm:id/c72

@@ -1,7 +1,9 @@
 package org.webdriver.patatiumappui.utils;
 
 import com.google.common.io.Files;
+import io.appium.java_client.MobileDriver;
 import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.Connection;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -26,113 +28,9 @@ import java.util.concurrent.TimeUnit;
 public class ElementAction extends TestBaseCase {
 
     private Log log = new Log(this.getClass());
+    Actions actions = new Actions(driver);
     public static ArrayList<Exception> noSuchElementExceptions = new ArrayList<Exception>();
-    TouchAction touchAction = new TouchAction(driver);
 
-    /**
-     * 获取手机网络状态
-     */
-    public void get_network_connection() {
-        int state = Integer.parseInt(driver.getConnection().toString());
-    }
-
-    /**
-     * 设置网络状态
-     */
-    public void tsetNetworkConnection(int status) {
-        driver.setConnection(Connection.valueOf(String.valueOf(status)));
-    }
-
-    /**
-     * 安装app
-     */
-    public void installApp(String appPath) {
-        driver.installApp(appPath);
-    }
-
-    /**
-     * 判断是否已安装app
-     *
-     * @param PackageName
-     */
-    public boolean isInstallApp(String PackageName) {
-        return driver.isAppInstalled(PackageName);
-    }
-
-    /**
-     * 判断是否锁屏
-     */
-    public boolean isLockedscreen() {
-        return driver.isLocked();
-    }
-
-    /**
-     * 打开通知栏界面
-     */
-    public void openNotifications() {
-        driver.openNotifications();
-    }
-
-    /**
-     * 按下安卓手机键.例如home,back等
-     *
-     * @param androidKeyCode 通过 AndroidKeyCode 枚举类获取
-     */
-    public void pressAndroidKey(int androidKeyCode) {
-        driver.pressKeyCode(androidKeyCode);
-    }
-
-    /**
-     * 长按下安卓手机键.例如home,back等
-     *
-     * @param androidKeyCode 通过 AndroidKeyCode 枚举类获取
-     */
-    public void longPressAndroidKey(int androidKeyCode) {
-        driver.longPressKeyCode(androidKeyCode);
-    }
-
-    /**
-     * 长按某个元素
-     *
-     * @param locator 元素locator
-     */
-    public void longPressAppElement(Locator locator) {
-        touchAction.longPress(findElement(locator));
-
-    }
-
-    /**
-     * 长按某个元素某个位置
-     *
-     * @param locator 元素定位信息
-     * @param x       元素X坐标
-     * @param y       元素Y坐标
-     */
-    public void longPressAppElement(Locator locator, int x, int y) {
-        touchAction.longPress(findElement(locator), x, y);
-    }
-
-    /**
-     * 长按手机界面某个位置
-     *
-     * @param x
-     * @param y
-     */
-    public void longPressPosition(int x, int y) {
-        touchAction.longPress(x, y);
-
-    }
-
-    /**
-     * 按住手机界面某个位置
-     *
-     * @param x
-     * @param y
-     */
-    public void pressPosition(int x, int y) {
-        touchAction.press(x, y);
-
-    }
 
     /**
      * 按住某个元素
@@ -140,26 +38,9 @@ public class ElementAction extends TestBaseCase {
      * @param locator 元素定位信息
      */
     public void pressAppElement(Locator locator) {
-        touchAction.press(findElement(locator));
+        actions.clickAndHold(findElement(locator)).perform();
     }
 
-    /**
-     * 按住某个元素的某个位置
-     *
-     * @param locator 元素定位信息
-     * @param x       位置x坐标
-     * @param y       位置y坐标
-     */
-    public void pressAppElement(Locator locator, int x, int y) {
-        touchAction.press(findElement(locator), x, y);
-    }
-
-    /**
-     * 取消操作
-     */
-    public void cancle() {
-        touchAction.cancel();
-    }
 
     /**
      * 移动到某个元素上
@@ -167,60 +48,9 @@ public class ElementAction extends TestBaseCase {
      * @param locator
      */
     public void movetoElement(Locator locator) {
-        touchAction.moveTo(findElement(locator));
+        actions.moveToElement(findElement(locator)).perform();
     }
 
-    /**
-     * 从x,y目标移动到元素
-     *
-     * @param locator
-     * @param x
-     * @param y
-     */
-    public void movetoElementPostion(Locator locator, int x, int y) {
-        touchAction.moveTo(findElement(locator), x, y);
-    }
-
-    /**
-     * 移动到某个位置
-     *
-     * @param x
-     * @param y
-     */
-    public void movetoPostion(int x, int y) {
-        touchAction.moveTo(x, y);
-    }
-
-    /**
-     * 从一个地方滑动到另外一个地方，等待几秒松开
-     *
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
-     * @param wait 等待几秒松开
-     */
-    public void swipe(int x1, int y1, int x2, int y2, int wait) {
-        driver.swipe(x1, y1, x2, y2, wait);
-    }
-
-    /**
-     * 在控件中心点轻按下
-     *
-     * @param locator
-     */
-    public void tap(Locator locator) {
-        touchAction.tap(findElement(locator));
-    }
-
-    /**
-     * 在控件某个点轻按下
-     *
-     * @param locator
-     */
-    public void tap(Locator locator, int x, int y) {
-        touchAction.tap(findElement(locator), x, y);
-    }
 
     /**
      * 文本框输入操作
@@ -243,6 +73,7 @@ public class ElementAction extends TestBaseCase {
         }
 
     }
+
 
     public void type_action(Locator locator, String value) {
         Actions actions = new Actions(driver);
@@ -268,6 +99,17 @@ public class ElementAction extends TestBaseCase {
         }
 
     }
+
+    /**
+     * 双击操作
+     *
+     * @param locator 元素locator
+     */
+    public void click_double(Locator locator) {
+        actions.doubleClick(findElement(locator)).perform();
+
+    }
+
 
     /**
      * 选择下拉框操作
@@ -427,18 +269,6 @@ public class ElementAction extends TestBaseCase {
         }
     }
 
-    /**
-     * 双击操作
-     *
-     * @param locator 元素locator
-     */
-    public void click_double(Locator locator) {
-        WebElement webElement = findElement(locator);
-        Actions actions = new Actions(driver);
-        actions.doubleClick(webElement).perform();
-        //actions.perform();
-
-    }
 
     /**
      * 清除文本框内容
@@ -899,7 +729,7 @@ public class ElementAction extends TestBaseCase {
 
     private String formatDate(Date date) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HHmmssSSS");
-        return formatter.format(date).toString();
+        return formatter.format(date);
     }
 
     //报表展示截图
